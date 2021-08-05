@@ -41,6 +41,7 @@ class Calculator:
         self.create_digit_buttons()
         self.create_operator_buttons()
         self.create_special_buttons()
+        self.bind_keys()
 
     def add_to_expression(self,value): 
         self.current_expression += str(value)
@@ -51,6 +52,13 @@ class Calculator:
         self.create_equal_button()
         self.create_square_button()
         self.create_sqrt_button()
+
+    def bind_keys(self): 
+        self.window.bind("<Return>", lambda event: self.evaluate())
+        for key in self.digits: 
+            self.window.bind(str(key), lambda event,digit=key: self.add_to_expression(digit))
+        for key in self.operations: 
+            self.window.bind(str(key), lambda event,operator=key: self.add_to_expression(operator))
 
     def create_display_label(self): 
         total_label = tk.Label(self.display_frame, text = self.total_expression, anchor = tk.E
